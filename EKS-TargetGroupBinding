@@ -48,12 +48,41 @@
     4. Create TargetGroup and associate it with loadbalancer
     5. Create & apply target group binding deployment file
         
-        apiVersion: elbv2.k8s.aws/v1beta1
-        kind: TargetGroupBinding
-        metadata:
-           name: my-tgb
-        spec:
-          serviceRef:
-            name: your-service # route traffic to the your-service
-            port: 80
-          targetGroupARN: <arn-to-targetGroup>
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+  selector:
+    app: nginx
+---
+apiVersion: elbv2.k8s.aws/v1beta1
+kind: TargetGroupBinding
+metadata:
+   name: my-tgb
+spec:
+  serviceRef:
+    name: nginx # route traffic to the nginx
+    port: 80
+  targetGroupARN: <arn-to-targetGroup>
