@@ -54,6 +54,6 @@
            name: my-tgb
         spec:
           serviceRef:
-            name: awesome-service # route traffic to the awesome-service
+            name: your-service # route traffic to the your-service
             port: 80
           targetGroupARN: <arn-to-targetGroup>
