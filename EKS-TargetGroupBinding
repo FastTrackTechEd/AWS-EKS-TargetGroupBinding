@@ -3,8 +3,8 @@
         a. IAM roles for service accounts 
             1. Create an IAM OIDC provider.
                 eksctl utils associate-iam-oidc-provider \
-                --region <region-code> \
-                --cluster <your-cluster-name> \
+                --region us-east-1 \
+                --cluster demo-cluster \
                 --approve
                 
             2. Download an IAM policy
